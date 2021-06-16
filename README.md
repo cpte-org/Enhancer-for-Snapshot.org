@@ -1,11 +1,12 @@
-# Browser-Extension-Boilerplate-Webpack
-A basic foundation boilerplate for rich Chrome Extensions using Webpack to help you write modular and modern Javascript code, load CSS easily
+# Snapshot.org Notifier
+[Draft] Append div flexbox of your elligible spaces
+
 
 Components (html/css/js):
     * background
     * content
-    * options
     * popup
+    * options
 
 development: live server
     yarn run start
@@ -13,7 +14,3 @@ Production:
     yarn b
     OR
     yarn build
-
-
--------------
-Thanks to OG: Samuel Simões ~ [@samuelsimoes](https://twitter.com/samuelsimoes) ~ [Blog](http://blog.samuelsimoes.com/)
