@@ -8,7 +8,7 @@ Components (html/css/js):
     * popup
     * options
 
-development: live server
+development: w/ live server
     yarn run start
 Production:
     yarn b
