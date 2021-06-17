@@ -22,6 +22,7 @@
     "write-file-webpack-plugin": "4.5.1"
   },
   "dependencies": {
-    "@snapshot-labs/snapshot.js": "^0.1.9"
+    "@snapshot-labs/snapshot.js": "^0.1.9",
+    "ethereum-address": "^0.0.4"
   }
 }
