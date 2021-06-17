@@ -1,6 +1,30 @@
-
+/*
 let elements = document.querySelectorAll('p');
 console.log(elements);
+*/
+
+console.log("*************content***********");
+
+let storage = chrome.storage.local;
+
+
+//let currentIndex;
+let result;
+function updateView(spaces){ //spaces[]
+    console.log(spaces)
+}
+
+setInterval(function() {
+    storage.get((result) => {
+        if (result.update){
+            updateView(result.Spaces);
+            storage.set({"update": false}, () => {
+                console.log("[info]: 'Update' Flag Reset");
+            });
+            //currentIndex = result.Spaces.lenght;
+        }
+      });
+  }, 1000); //Every 1000ms = 1sec
 
 /*
 const appendSpace = function(space) {
