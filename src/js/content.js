@@ -1,3 +1,6 @@
+var ethereum_address = require('ethereum-address');
+
+
 console.log("*************content***********");
 
 let storage = chrome.storage.local;
@@ -9,40 +12,67 @@ let stateCheck = setInterval(()=>{
         div[0].insertAdjacentHTML("afterend", "<div id='eligibleSpaces'></div>");
         clearInterval(stateCheck);
     }
-}, 100) 
-
-
+}, 100)
+let eligibleSpacesModal;
 function display(mode){
+    eligibleSpacesModal = document.getElementById("eligibleSpaces");
     switch(mode) {
         case 0:
-            console.log("Placeholder ( setAddress (address and submit button form)");
+            storage.get((result)=>{
+                if(result.Address){
+                    eligibleSpacesModal.innerHTML = "Loading Spaces";
+                }else{
+                    eligibleSpacesModal.innerHTML = "<h1>Set Your Ethereum Address In The Extension's Popup ↗️</h1>";
+                }
+            });
+            
+            console.log("----Display : Placeholder----");
             break;
         case 1:
-            console.log("loading (loading animation until (storage.done), tail console logs)");
+            eligibleSpacesModal.innerHTML = "Loading Spaces";
+            //loading (loading animation until (storage.done), tail console logs)
+            console.log("----Display : Loading----");
             break;
         default:
-            console.log("displaySpaces (flex box table: spaces.forEach(insertInTable))");
+            eligibleSpacesModal.innerHTML = "<table id='spacesTable'></table>";
+            let spacesTable = document.getElementById("spacesTable");
+            let tableBody = mode.reduce((rows, nextRow) =>{
+                return rows += 
+                    '<tr>' + 
+                    Object.keys(nextRow).reduce((cols, nextCol) => { 
+                        return cols += '<th>' + nextRow[nextCol] + '</th>'
+                    }, '') + 
+                    '</tr>'
+            }, '');
+            spacesTable.innerHTML = tableBody;
+
+            //eligibleSpacesModal.innerHTML = mode;
+            //displaySpaces (flex box table: spaces.forEach(insertInTable)
+            console.log("----Display : Spaces Table----");
             //https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Faragon%2Fspace.png
       } 
 }
 
 const interval = setInterval(function() {
-    storage.get( (result) => {
-        //console.log(result);
-        if (result.done){
-            display(result.Spaces);
-            clearInterval(interval);
-        }else{
-            if (result.update){
-                display(1);
-                storage.set({"update": false}, () => {
-                    console.log("[info]: 'Update' Flag Reset");
-                });
-            }else if(result.update == null){
-                display(0);
+    if(document.getElementById("eligibleSpaces")){
+        storage.get( (result) => {
+            //console.log(result);
+            if (result.done){
+                display(result.Spaces);
+                clearInterval(interval);
+            }else{
+                if (result.update){
+                    display(1);
+                    storage.set({"update": false}, () => {
+                        console.log("[info]: 'Update' Flag Reset");
+                    });
+                }else if(result.update == null){
+                    display(0);
+                    //clearInterval(interval);
+                }
             }
-        }
-    });
+        });
+    }
 }, 1000);
 ;
 
