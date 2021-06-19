@@ -36,6 +36,7 @@ function subObjs2Arr(obj) {
 
 let spaceData = {} ;
 var obj;
+let end;
 
 function appendSpace(space) {
     
@@ -64,11 +65,21 @@ function appendSpace(space) {
       
 }
 
+
+
 function fetchEligibleSpaces(address){
     fetch('https://hub.snapshot.org/api/spaces')
     .then(res => res.json())
     .then((spaces) => {
-        subObjs2Arr(spaces).forEach(space => {
+
+        spaces = subObjs2Arr(spaces);
+        end=spaces.length-spamList.length;
+        console.log("Number of Spaces: ",end);
+        
+        spaces.forEach(space => {
+
+            
+                    
             key = Object.keys(space)[0];
             if (spamList.indexOf(key) < 0) {
 
@@ -83,6 +94,15 @@ function fetchEligibleSpaces(address){
                     [address],
                     "latest"
                 ).then(scores => {
+                    --end;
+                    console.log(end);
+                    if(end==0){
+                        console.log("end of spaces[]");
+                        storage.set({"done": true}, () => {
+                            console.log('[info]: All Spaces Appended to Store');
+                        });
+                    }
+
                     for (var i = 0; i < scores.length; i++) {
                         if (!isNaN(Object.values(scores[i])) && Object.values(scores[i]) != 0) {
                             appendSpace(space);
@@ -90,13 +110,31 @@ function fetchEligibleSpaces(address){
                         }
                     }
                 })
+                .catch(err => {
+                    --end;
+                    if(end==0){
+                        console.log("end of spaces[]");
+                        storage.set({"done": true}, () => {
+                            console.log('[info]: All Spaces Appended to Store');
+                        });
+                    }
+                    console.error(err);
+                });
             }
+            
+            
+            
+            
         });
     })
     .catch(err => console.error(err));
+
 }
-
-
+/*
+storage.set({"done": true}, () => {
+    console.log("end of spaces[]");
+});
+*/
 
 let newAddr=null;
 

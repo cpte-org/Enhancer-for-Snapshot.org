@@ -7,24 +7,58 @@ console.log("*************content***********");
 
 let storage = chrome.storage.local;
 
-
-//let currentIndex;
-let result;
-function updateView(spaces){ //spaces[]
-    console.log(spaces)
+function displayLoading(){
+    console.log("loading");
+}
+function displaySpaces(spaces){ //spaces[]
+    console.log(spaces);
 }
 
-setInterval(function() {
-    storage.get((result) => {
-        if (result.update){
-            updateView(result.Spaces);
-            storage.set({"update": false}, () => {
-                console.log("[info]: 'Update' Flag Reset");
-            });
-            //currentIndex = result.Spaces.lenght;
+const interval = setInterval(function() {
+    storage.get( (result) => {
+        console.log(result);
+        if (result.done){
+            displaySpaces(result.Spaces);
+            clearInterval(interval);
+        }else{
+            if (result.update == true || result.update == null){
+                displayLoading();
+                storage.set({"update": false}, () => {
+                    console.log("[info]: 'Update' Flag Reset");
+                });
+            }
         }
-      });
-  }, 1000); //Every 1000ms = 1sec
+    });
+}, 1000); //Every 1000ms = 1sec
+;
+
+
+
+//wait for storage.Spaces to fill, then displaySpaces
+/*
+setInterval(function() {
+storage.get((result) => {
+    if(result.update == false){
+        console.log("[info]: 'Update' Flag DOWN");
+        displaySpaces(result.Spaces);
+    }else{
+        console.log("[info]: 'Update' Flag UP");
+        
+            storage.get((result) => {
+                if (result.update){
+                    displaySpaces(result.Spaces);
+                    storage.set({"update": false}, () => {
+                        console.log("[info]: 'Update' Flag Reset");
+                    });
+                }
+              });
+          
+          
+    }
+});
+
+}, 1000); //Every 1000ms = 1sec
+*/
 
 /*
 const appendSpace = function(space) {
