@@ -97,7 +97,6 @@ function fetchEligibleSpaces(address){
                     "latest"
                 ).then(scores => {
                     --end;
-                    console.log(end);
                     if(end==0){
                         console.log("end of spaces[]");
                         storage.set({"done": true}, () => {

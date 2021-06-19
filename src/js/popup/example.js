@@ -58,6 +58,10 @@ export default function () {
     }
   }
 
+
+  function refreshPage(){
+    console.log("refresh snapshot.org page for changes to take effect");
+  }
   //save button and input validation
   
   ele.set.addEventListener('click', ()=> {
@@ -74,6 +78,7 @@ export default function () {
       storage.set({"Address": ethAddress}, () => {
         console.log('Stored name: ' + ethAddress);
       });
+      refreshPage();
     }
       else
         ele.error.innerHTML = "invalid address";
@@ -81,9 +86,18 @@ export default function () {
   
   //refresh button
   
+  let temp;
+
   ele.refresh.addEventListener('click', ()=> {
     console.log("'refresh' clicked");
-    //browser.runtime.sendMessage({refresh: true});
+    storage.get( (result) => {
+      temp = result.Address;
+    });
+    storage.clear();
+    storage.set({"Address": ethAddress}, () => {
+      console.log("Refresh started");
+    });
+    refreshPage();
   });
   
   //add button
