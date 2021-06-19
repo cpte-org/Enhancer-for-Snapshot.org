@@ -23,7 +23,6 @@ function display(mode){
         default:
             console.log("displaySpaces (flex box table: spaces.forEach(insertInTable))");
             //https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Faragon%2Fspace.png
-
       } 
 }
 
