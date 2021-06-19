@@ -2,56 +2,53 @@ console.log("*************content***********");
 
 let storage = chrome.storage.local;
 
-function displayLoading(){
-    /*
-        dinamicaly progressive loading bar
-    */
-    console.log("loading");
-}
-function displaySpaces(spaces){ //spaces[]
-    /*
-        Flex box table
-    */
-    console.log(spaces);
+let stateCheck = setInterval(()=>{
+    if(document.readyState=="complete"){
+        var el = document.createElement("div");
+        var div = document.getElementsByClassName("text-center mb-4 mx-auto");
+        div[0].insertAdjacentHTML("afterend", "<div id='eligibleSpaces'></div>");
+        clearInterval(stateCheck);
+    }
+}, 100) 
+
+
+function display(mode){
+    switch(mode) {
+        case 0:
+            console.log("Placeholder ( setAddress (address and submit button form)");
+            break;
+        case 1:
+            console.log("loading (loading animation until (storage.done), tail console logs)");
+            break;
+        default:
+            console.log("displaySpaces (flex box table: spaces.forEach(insertInTable))");
+            //https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Faragon%2Fspace.png
+
+      } 
 }
 
 const interval = setInterval(function() {
     storage.get( (result) => {
-        console.log(result);
+        //console.log(result);
         if (result.done){
-            displaySpaces(result.Spaces);
+            display(result.Spaces);
             clearInterval(interval);
         }else{
-            if (result.update == true || result.update == null){
-                displayLoading();
+            if (result.update){
+                display(1);
                 storage.set({"update": false}, () => {
                     console.log("[info]: 'Update' Flag Reset");
                 });
+            }else if(result.update == null){
+                display(0);
             }
         }
     });
-}, 1000); //Every 1000ms = 1sec
+}, 1000);
 ;
 
 
-/*
-const appendSpace = function(space) {
-    key = Object.keys(space)[0];
 
-    function insertAfter(referenceNode, newNode) {
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
-    var el = document.createElement("div");
-    el.innerHTML = key + " " + space[key].name + " " + space[key].symbol;
-
-    var div = document.getElementsByClassName("mb-4");
-    https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Faragon%2Fspace.png
-
-    insertAfter(div[0], el);
-
-}
-*/
 //https://stackoverflow.com/questions/16334054/inject-html-into-a-page-from-a-content-script
 
         
