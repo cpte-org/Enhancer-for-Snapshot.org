@@ -1,9 +1,8 @@
-var ethereum_address = require('ethereum-address');
-
-
 console.log("*************content***********");
+const storage = chrome.storage.local;
 
-let storage = chrome.storage.local;
+const endpoint = "https://hub.snapshot.org/graphql";
+
 
 let stateCheck = setInterval(()=>{
     if(document.readyState=="complete"){
@@ -13,7 +12,9 @@ let stateCheck = setInterval(()=>{
         clearInterval(stateCheck);
     }
 }, 100)
+
 let eligibleSpacesModal;
+
 function display(mode){
     eligibleSpacesModal = document.getElementById("eligibleSpaces");
     switch(mode) {
@@ -25,7 +26,6 @@ function display(mode){
                     eligibleSpacesModal.innerHTML = "<h1>Set Your Ethereum Address In The Extension's Popup ↗️</h1>";
                 }
             });
-            
             console.log("----Display : Placeholder----");
             break;
         case 1:
@@ -36,17 +36,58 @@ function display(mode){
         default:
             eligibleSpacesModal.innerHTML = "<table id='spacesTable'></table>";
             let spacesTable = document.getElementById("spacesTable");
-            let tableBody = mode.reduce((rows, nextRow) =>{
-                return rows += 
-                    '<tr>' + 
-                    Object.keys(nextRow).reduce((cols, nextCol) => { 
-                        return cols += '<th>' + nextRow[nextCol] + '</th>'
-                    }, '') + 
-                    '</tr>'
-            }, '');
-            spacesTable.innerHTML = tableBody;
 
-            //eligibleSpacesModal.innerHTML = mode;
+            let finalArr = [];
+            let i = mode.length;
+
+            function displayPatch(){
+                let tableBody = finalArr.reduce((rows, nextRow) =>{
+                    return rows += 
+                        '<tr>' + 
+                        Object.keys(nextRow).reduce((cols, nextCol) => { 
+                            return cols += '<th><a href="https://snapshot.org/#/'+nextRow.key+'">' + nextRow[nextCol] + '</a></th>'
+                        }, '') + 
+                        '</tr>'
+                }, '');
+                spacesTable.innerHTML = tableBody;
+            }
+
+            mode.forEach((space)=>{
+                fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: `query
+                        Proposals {
+                            proposals(
+                            first: 20,
+                            skip: 0,
+                            where: {
+                                space_in: ["${space.key}"],
+                                state: "active"
+                            },
+                            orderBy: "created",
+                            orderDirection: desc
+                            ) {
+                            id
+                            space {
+                                id
+                                name
+                            }
+                            }
+                        }` 
+                    }),
+                    })
+                    .then(res => res.json())
+                    .then(res => {
+                        space.numProposals = res.data.proposals.length;
+                        finalArr.push(space);
+                        if(i==finalArr.length)displayPatch();
+                    });
+            });
+            //console.log(finalArr);
+
+            
+
             //displaySpaces (flex box table: spaces.forEach(insertInTable)
             console.log("----Display : Spaces Table----");
             //https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Faragon%2Fspace.png
@@ -75,15 +116,3 @@ const interval = setInterval(function() {
     }
 }, 1000);
 ;
-
-
-
-//https://stackoverflow.com/questions/16334054/inject-html-into-a-page-from-a-content-script
-
-        
-/*
-fetch(chrome.runtime.getURL('../content-script/modal.html')).then(r => r.text()).then(html => {
-    document.body.insertAdjacentHTML('beforeend', html);
-    // not using innerHTML as it would break js event listeners of the page
-  });
-  */
