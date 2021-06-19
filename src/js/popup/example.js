@@ -66,6 +66,11 @@ export default function () {
     if(ethereum_address.isAddress(ethAddress)){
       //console.log("valid address");
       changePage("default");
+      /*
+        Refresh snapshot.org page if open
+        auto-close popup
+      */
+      storage.clear();
       storage.set({"Address": ethAddress}, () => {
         console.log('Stored name: ' + ethAddress);
       });

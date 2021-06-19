@@ -8,9 +8,17 @@ console.log("*************content***********");
 let storage = chrome.storage.local;
 
 function displayLoading(){
+    /*
+        dinamicaly progressive loading bar
+
+    */
     console.log("loading");
 }
 function displaySpaces(spaces){ //spaces[]
+    /*
+        Flex box table
+        
+    */
     console.log(spaces);
 }
 

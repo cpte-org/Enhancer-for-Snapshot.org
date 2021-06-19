@@ -38,18 +38,20 @@ let spaceData = {} ;
 var obj;
 let end;
 
+
+
 function appendSpace(space) {
     
     key = Object.keys(space)[0];
     spaceData = {"key": key , "name": space[key].name, "symbol": space[key].symbol}; // Todo: add image link
 
     storage.get( (result) => {
-        // localStore.Spaces?( append, initiate)
+        
         if(result.Spaces){
             result["Spaces"].push(spaceData);
             storage.set(result, () => {
-                console.log("----------");
-                console.log(result);
+                //console.log("----------");
+                //console.log(result);
             });
             storage.set({"update": true}, () => {
                 console.log('[info]: New Space Appended to Store');
@@ -130,11 +132,6 @@ function fetchEligibleSpaces(address){
     .catch(err => console.error(err));
 
 }
-/*
-storage.set({"done": true}, () => {
-    console.log("end of spaces[]");
-});
-*/
 
 let newAddr=null;
 
