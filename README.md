@@ -1,6 +1,6 @@
 # Snapshot.org Notifier
 
-[Draft] Append div flexbox of your elligible spaces
+This browser extension highlights Spaces you're eligible to participate in.
 
 
 Components (html/css/js):
