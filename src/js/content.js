@@ -20,23 +20,15 @@ let eligibleSpacesModal;
 function display(mode){
     eligibleSpacesModal = document.getElementById("eligibleSpaces");
     switch(mode) {
-        case 0:
-            /*
-            storage.get((result)=>{
-                if(result.Address){
-                    eligibleSpacesModal.innerHTML = "Loading Spaces";
-                }else{*/
+        case 0: // PlaceHolder: Set Address
                     eligibleSpacesModal.innerHTML = "<h1>Set Your Ethereum Address In The Extension's Popup ↗️</h1>";
-                /*}
-            });*/
-            //console.log("----Display : Placeholder----");
             break;
-        case 1:
+        case 1: //Loading View
             eligibleSpacesModal.innerHTML = "Loading Spaces";
             if((progress[0]+progress[1])>0)
+                //https://codepen.io/tag/progressbar?cursor=ZD0xJm89MCZwPTI=
                 console.log("Total Progress = "+(progress[0]+progress[1])*100)
-            //loading (loading animation until (storage.done), tail console logs)
-            //console.log("----Display : Loading----");
+            //To-Do: tail console logs
             break;
         default:
             eligibleSpacesModal.innerHTML = "<table id='spacesTable'></table>";
