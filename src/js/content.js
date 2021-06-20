@@ -3,6 +3,8 @@ const storage = chrome.storage.local;
 
 const endpoint = "https://hub.snapshot.org/graphql";
 
+var progress=[];
+progress[1]=0;
 
 let stateCheck = setInterval(()=>{
     if(document.readyState=="complete"){
@@ -19,24 +21,26 @@ function display(mode){
     eligibleSpacesModal = document.getElementById("eligibleSpaces");
     switch(mode) {
         case 0:
+            /*
             storage.get((result)=>{
                 if(result.Address){
                     eligibleSpacesModal.innerHTML = "Loading Spaces";
-                }else{
+                }else{*/
                     eligibleSpacesModal.innerHTML = "<h1>Set Your Ethereum Address In The Extension's Popup ↗️</h1>";
-                }
-            });
-            console.log("----Display : Placeholder----");
+                /*}
+            });*/
+            //console.log("----Display : Placeholder----");
             break;
         case 1:
             eligibleSpacesModal.innerHTML = "Loading Spaces";
+            if((progress[0]+progress[1])>0)
+                console.log("Total Progress = "+(progress[0]+progress[1])*100)
             //loading (loading animation until (storage.done), tail console logs)
-            console.log("----Display : Loading----");
+            //console.log("----Display : Loading----");
             break;
         default:
             eligibleSpacesModal.innerHTML = "<table id='spacesTable'></table>";
             let spacesTable = document.getElementById("spacesTable");
-
             let finalArr = [];
             let i = mode.length;
 
@@ -81,6 +85,8 @@ function display(mode){
                     .then(res => {
                         space.numProposals = res.data.proposals.length;
                         finalArr.push(space);
+                        progress[1]=finalArr.length/i;
+                        //console.log("Progress[1] = "+progress[1]);
                         if(i==finalArr.length)displayPatch();
                     });
             });
@@ -94,6 +100,30 @@ function display(mode){
       } 
 }
 
+const interval = setInterval(function() {
+    if(document.getElementById("eligibleSpaces")){
+        storage.get( (result) => {
+
+            if(result.Address){
+                if (result.done){
+                    display(result.Spaces);
+                    clearInterval(interval);
+                }else{
+                    display(1);
+                    if (result.Spaces){
+                        progress[0] = result.Spaces.length/result.spacesCounter; //spaces progress
+                        //console.log("Progress[0] = "+progress[0]);
+                    }
+                        
+                }
+            }else{
+                display(0);
+            }
+        });
+    }
+}, 1000);
+;
+/*
 const interval = setInterval(function() {
     if(document.getElementById("eligibleSpaces")){
         storage.get( (result) => {
@@ -116,3 +146,4 @@ const interval = setInterval(function() {
     }
 }, 1000);
 ;
+*/

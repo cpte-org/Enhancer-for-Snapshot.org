@@ -36,7 +36,7 @@ function subObjs2Arr(obj) {
 
 let spaceData = {} ;
 var obj;
-let end;
+let spacesCounter;
 
 
 
@@ -53,9 +53,11 @@ function appendSpace(space) {
                 //console.log("----------");
                 //console.log(result);
             });
+            /*
             storage.set({"update": true}, () => {
                 console.log('[info]: New Space Appended to Store');
             });
+            */
             
             
         }else{
@@ -75,13 +77,10 @@ function fetchEligibleSpaces(address){
     .then((spaces) => {
 
         spaces = subObjs2Arr(spaces);
-        end=spaces.length-spamList.length;
-        console.log("Number of Spaces: ",end);
+        spacesCounter=spaces.length-spamList.length;
+        console.log("Number of Spaces: ",spacesCounter);
         
-        spaces.forEach(space => {
-
-            
-                    
+        spaces.forEach(space => {        
             key = Object.keys(space)[0];
             if (spamList.indexOf(key) < 0) {
 
@@ -96,8 +95,11 @@ function fetchEligibleSpaces(address){
                     [address],
                     "latest"
                 ).then(scores => {
-                    --end;
-                    if(end==0){
+                    spacesCounter--;
+                    storage.set({"spacesCounter": spacesCounter}, () => {
+                        console.log("Countdown: "+spacesCounter);
+                    });
+                    if(spacesCounter==0){
                         console.log("end of spaces[]");
                         storage.set({"done": true}, () => {
                             console.log('[info]: All Spaces Appended to Store');
@@ -112,8 +114,8 @@ function fetchEligibleSpaces(address){
                     }
                 })
                 .catch(err => {
-                    --end;
-                    if(end==0){
+                    --spacesCounter;
+                    if(spacesCounter==0){
                         console.log("end of spaces[]");
                         storage.set({"done": true}, () => {
                             console.log('[info]: All Spaces Appended to Store');
