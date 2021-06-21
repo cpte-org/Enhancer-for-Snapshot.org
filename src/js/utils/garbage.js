@@ -3,7 +3,82 @@
 //0x0b87b7d6a2335f248599692ead6447d6ffb25b97
 
 
-input = [0, 0.10626992561105207,0.21929824561403508,0.2254791431792559,0.23228803716608595,0.23894862604540024,0.2472187886279357,0.2518891687657431,0.38510911424903727,0.5305039787798408,0.5532503457814661,0.7204610951008645,0.7518796992481203,0.7836990595611284,0.8169934640522877,0.847457627118644,0.8849557522123894,0.927643784786642,0.9615384615384616,1.0101010101010102,1.0660980810234542,1.1363636363636365,1.1961722488038278,1.2722646310432568,1.358695652173913,2.366863905325444,2.5889967637540456,2.807017543859649,3.076923076923077,3.404255319148936,3.8461538461538463,4.891304347826087,5.660377358490567,8.148148148148149,11.214953271028037,14.457831325301203,19.35483870967742,30.76923076923077,60,80,100,]
+
+
+
+
+
+
+
+
+
+<a href="#/"+space.key+"" class="">
+ <div class="col-12 col-lg-3 pr-4 float-left">
+  <div
+   class="
+    border-top border-bottom border-md
+    rounded-0 rounded-md-2
+    mb-4
+    block-bg
+    text-center
+    extra-icon-container
+   "
+   style="height: 250px; margin-bottom: 24px !important;"
+  >
+   <div class="p-4">
+    <span class="position-relative d-inline-block"
+     ><span
+      class="Counter position-absolute top-4 right-0 bg-green"
+      data-v-512871cb=""
+      >1</span
+     ><span class="d-inline-block v-align-middle line-height-0 my-3"
+      ><span
+       ><img
+        src="https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2F"+space.key+"%2Fspace.png"
+        class="circle border line-height-0 v-align-middle"
+        style="width: 98px; height: 98px;" /></span></span></span
+    ><button class="extra-icon extra-icon-off text-gray" data-v-b9b5feee="">
+     <i
+      class="iconfont iconfavorite-off"
+      data-v-031ff5a7=""
+      data-v-b9b5feee=""
+      style="font-size: 22px; line-height: 22px;"
+     ></i>
+    </button>
+    <div class="">
+     <h3>+space.name+</h3>
+     <div class="text-gray">+space.key+</div>
+    </div>
+   </div>
+  </div>
+ </div>
+</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 var input = [0,1,2,5,7,80,90,100];
@@ -32,7 +107,6 @@ function curve(input){
 
 
 
-https://hub.snapshot.org/graphql?query=query%20Proposals%20%7B%0A%20%20proposals(%0A%20%20%20%20first%3A%2020%2C%0A%20%20%20%20skip%3A%200%2C%0A%20%20%20%20where%3A%20%7B%0A%20%20%20%20%20%20space_in%3A%20%5B%22uniswap%22%5D%2C%0A%20%20%20%20%20%20state%3A%20%22active%22%0A%20%20%20%20%7D%2C%0A%20%20%20%20orderBy%3A%20%22created%22%2C%0A%20%20%20%20orderDirection%3A%20desc%0A%20%20)%20%7B%0A%20%20%20%20id%0A%20%20%20%20title%0A%20%20%20%20body%0A%20%20%20%20choices%0A%20%20%20%20start%0A%20%20%20%20end%0A%20%20%20%20snapshot%0A%20%20%20%20state%0A%20%20%20%20author%0A%20%20%20%20space%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D&operationName=Proposals
 
 /*
  pass spaces array
