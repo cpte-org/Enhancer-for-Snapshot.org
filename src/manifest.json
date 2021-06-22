@@ -19,7 +19,7 @@
       "all_frames" : false,
       "run_at":"document_idle",
       "js": ["content.bundle.js"],
-      "matches": ["<all_urls>"]
+      "matches": ["*://snapshot.org/"]
     }
   ],
   "manifest_version": 2,
