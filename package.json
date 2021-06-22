@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-webpack",
+  "name": "snapshot-enhancer",
   "version": "0.0.1",
-  "description": "A boilerplate to chrome extension with webpack",
+  "description": "Enhance snapshot.org user experience",
   "scripts": {
     "build": "node utils/build.js",
     "b": "node utils/build.js",

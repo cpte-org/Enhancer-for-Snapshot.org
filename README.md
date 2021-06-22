@@ -1,4 +1,4 @@
-# Snapshot.org Notifier
+# Snapshot.org Enhancer Browser Extension
 
 This browser extension highlights Spaces you're eligible to participate in.
 
