@@ -2,6 +2,10 @@
 
 This browser extension highlights Spaces you're eligible to participate in.
 
+ * Chrome webstore : https://chrome.google.com/webstore/detail/snapshotorg-enhancer-exte/mmfkhlmbialoaggolaelabkficbedpia
+ * Firefox AMO : https://addons.mozilla.org/en-US/firefox/addon/snapshot-org/
+
+
 
 Components (html/css/js):
 
